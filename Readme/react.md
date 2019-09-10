@@ -30,5 +30,13 @@ Which are the smallest building blocks of React apps.React provides the createEl
 
 createElement accepts three arguments that define the element you want to create.
 1- The first argument is the type of argument you want to create. This is usually a string which represents an HTML element or a tag.
+
 2- Now the second argument you pass to React.createElement is an object, containing any attribute and value you want to give the element.
-3-So the third argument you pass to React.createElement, is the contents or children of the element you're creating. For instance any text that will display between the opening and closing h1 tags.
+
+3- So the third argument you pass to React.createElement, is the contents or children of the element you're creating. For instance any text that will display between the opening and closing h1 tags.
+Which library lets React connect to and update the DOM? ReactDom
+React create objects that describe Dom node.
+===============================================
+Conclusion
+
+React cannot update and manipulate Dom directly.it can only manages what gets render to the Dom via ReactDom.render. it is job of render() to interpret the element objects and create Dom nodes out of them.
