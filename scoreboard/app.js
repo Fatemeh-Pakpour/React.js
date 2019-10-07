@@ -1,64 +1,107 @@
 
-// const title = "The first react code";
+const Header = props => {
+  console.log(props);
+  return (
+    <header>
+      <h1>{props.title}</h1>
+      <span className="stats">Players : {props.totalPlayers}</span>
+    </header>
+  );
+};
 
-// const description = "I am learning the react coding";
-// const idTitle = "main-title";
-// const name ="Fatemeh";
-// const header = (
-//     <header>
-//     {/* comments */}
-//         <h1 id ={idTitle}>{name}'s First React Element</h1>
-//         <p className ="headline">{description}</p>
-//     </header>   
-// );
+const Player = (props)=> {
+      return(
+    <div className="player">
+      <span className="player-name">
+        <button className="remove-player" onClick = {()=>{props.removePlayer(props.id)}}>✖</button>
+        {props.playerName}
+      </span>
+      <Counter />
+    </div>
+  );
+};
 
-
-const Header =(props)=>{
+class Counter extends React.Component {
+  state = {
+    score: 0
+  };
+  incrementScore = () => {
+    this.setState(prevState => ({
+      score: prevState.score + 1
+    }));
+  };
+  decrementScore = () => {
+    // wrap the body of callbacl function with parentheses
+    this.setState(prevState => ({
+      score: prevState.score - 1
+    }));
+  };
+  render() {
     return (
-      <header>
-        <h1>{props.title}</h1>
-        <span className ="stats">Players : {props.totalPlayers}</span>
-     </header>
-    );   
+      <div className="counter">
+        <button
+          className="counter-action decrement"
+          onClick={this.decrementScore}
+        >
+          -
+        </button>
+        <div className="counter-score">{this.state.score}</div>
+        <button
+          className="counter-action increment"
+          onClick={this.incrementScore}
+        >
+          +
+        </button>
+      </div>
+    );
+  }
 }
 
-const Player = (props)=>{
-    return(
-<div className ="player">
-    <span className ="player-name">{props.playerName}</span>
-   <Counter score= {props.score}/> 
-</div>
-    );
-}
-const Counter = (props)=>{
-    return (
-      <div className ="counter">
-        <button className ="counter-action decrement">-</button>
-        <div className="counter-score">{props.score}</div>
-        <button className="counter-action increment">+</button>
-       </div>
-    );
-}
-const App = ()=>{
-    return(
-        <div className = "scoreboard">
-        <Header 
-           title="My Scoreboard" 
-           totalPlayers={5}
-           isFun={true}
-        />
-        {/* player list */}
-        <Player playerName ="Fatemeh" score ={15}/>
-        <Player playerName ="Gill" score ={4}/>
-        <Player playerName ="Ida" score ={10}/>
-        <Player playerName ="Azin" score ={20}/>
-        <Player playerName ="Lilla" score ={6}/>
-        </div>
+class App extends React.Component {
+    state ={
+        players :[
+            {
+                name: "Fafa",
+                id: 1
+              },
+              {
+                name: "Aki",
+                id: 2
+              },
+              {
+                name: "Lilla",
+                id: 3
+              }
+        ]
 
-    );
-}
+    }
+    handleRemovePlayer=(id)=>{
+        this.setState(prevState=>({
+            players:prevState.players.filter(player=>player.id !== id)
+        }))
+    }
+    render(){
+        return (
+            <div className="scoreboard">
+              <Header
+                title="My Scoreboard"
+                totalPlayers={this.state.players.length}
+                isFun={true}
+              />
+              {/* player list */}
+        
+              {this.state.players.map(player => (
+                <Player 
+                playerName={player.name} 
+                id = {player.id}
+                key={player.id.toString()} 
+                removePlayer={this.handleRemovePlayer}    
+                />
+              ))}
+            </div>
+          );
+    }
+  
+};
 
-ReactDOM.render(
-    <App/>,
-    document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById("root"));
