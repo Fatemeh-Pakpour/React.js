@@ -1,8 +1,7 @@
 import React from 'react';
 import Player from './Player';
 import Header from './Header';
-// import logo from './logo.svg';
-// import './App.css';
+import AddPlayerForm from './AddPlayerForm';
 
 
 class App extends React.Component {
@@ -26,6 +25,9 @@ class App extends React.Component {
         ]
 
     }
+     // player id counter
+     prevPlayerId = 3;
+
     handleRemovePlayer=(id)=>{
         this.setState(prevState=>({
             players:prevState.players.filter(player=>player.id !== id)
@@ -35,10 +37,25 @@ class App extends React.Component {
       this.setState(prevState =>({
   
       score: prevState.players[index].score += delta}))
-     
-     
-    
+    }
+   
+    handleAddPlayer =(name)=>{
+    this.setState(prevState => {
+      return {
+        players : [
+          ...prevState.players,
+            {
+              name ,
+              score: 0 ,
+              id : this.prevPlayerId += 1 
+            }
+          ]
       }
+    });
+
+    }
+   
+
     // handleScoreChange = (index, delta) => {
     //   this.setState( prevState => {
     //     // New 'players' array – a copy of the previous `players` state
@@ -64,7 +81,7 @@ class App extends React.Component {
             <div className="scoreboard">
               <Header
                 title="My Scoreboard"
-                totalPlayers={this.state.players.length}
+                players={this.state.players}
                 isFun={true}
               />
               {/* player list */}
@@ -80,6 +97,7 @@ class App extends React.Component {
                 changeScore ={this.handleScoreChange}   
                 />
               ))}
+              <AddPlayerForm addPlayer ={this.handleAddPlayer}/>
             </div>
           );
     }
